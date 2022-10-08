@@ -1,45 +1,31 @@
 export default class PageUserList extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: 'open'})
+        this.themePath = './themes/default/'
     }
 
     async connectedCallback() {
 
-        const template = document.createElement('template')
-        template.innerHTML += /* html */`
-            <style>
-                table {
-                    border-collapse: collapse;
-                }
-                table, th, td {
-                    border: 1px solid;
-                }
-                </style>
-            <h1>User List</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>username</th>
-                        <th>firstname</th>
-                        <th>lastname</th>
-                        <th>email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        `;
-        this.shadowRoot.appendChild(template.content.cloneNode(true))  
-        
-        const url = '/api/userlist.php'
-
         const response = await fetch(
-            url,
-            { method: 'GET' }
+            new Request(
+                this.themePath + 'page/user-list.html',
+                { method: 'GET' }
+            )
         )
 
-        for (const user of await response.json()) {
+        const template = document.createElement('template')
+        template.innerHTML = await response.text()
+        this.shadowRoot.appendChild(template.content.cloneNode(true))  
+
+        const responseUserList = await fetch(
+            new Request(
+                '/api/userlist.php',
+                { method: 'GET' }
+            )
+        )
+
+        for (const user of await responseUserList.json()) {
             const row = document.createElement('tr')
             const cellUsername = document.createElement('td')
             const cellFirstname = document.createElement('td')
@@ -60,7 +46,17 @@ export default class PageUserList extends HTMLElement {
             row.appendChild(cellFirstname)
             row.appendChild(cellLastname)
             row.appendChild(cellEmail)
+
             this.shadowRoot.querySelector('tbody').appendChild(row)
          }
+    }
+
+    static get observedAttributes() { return ['theme-path']; }
+
+    async attributeChangedCallback(name, oldValue, newValue) {
+        if (name !== 'theme-path') {
+            return
+        }
+        this.themePath = newValue
     }
 }

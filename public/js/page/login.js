@@ -6,64 +6,18 @@ export default class PageLogin extends HTMLElement {
         this.boundClickButton = event => this.clickButton(event)
     }
 
-    /**
-     * @returns {Node}
-     */
-    template() {
-        const template = document.createElement('template')
-        template.innerHTML = /* html */`
-            <style>
-                div {
-                    font-family: sans-serif;
-                    margin-top: 30vh;
-                    margin-left: auto;
-                    margin-right: auto;
-                    min-height: 300px;
-                    max-width: 360px;
-                    padding: 45px;
-                    text-align: center;
-                    background-color: #c7dadf;
-                }
-                form {
-                    color: #15819b;
-                }
-                input {
-                    width: 100%;
-                    border: 0;
-                    margin: 0 0 15px;
-                    padding: 15px;
-                    box-sizing: border-box;
-                }
-                button {
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    color: white;
-                    background-color: #15819b;
-                    width: 100%;
-                    border: 0;
-                    padding: 15px;
-                }
-                #error {
-                    margin-bottom: 2em;
-                    min-height: 1.2em;
-                }
-            </style>
-            <div>
-                <form>
-                    <h2>Log In</h2>
-                    <p id="error"></p>
-                    <input id="usernameOrEmail" type="text" placeholder="Username or E-Mail"/>
-                    <input id="password" type="password" placeholder="Password"/>
-                    <button>Login</button>
-                    <p><a href="#password-reset">Forgot your password?</a></p>
-                </form>
-            </div>
-        `
-        return template.content.cloneNode(true)
-    }
+    async connectedCallback() {
 
-    connectedCallback() {
-        this.shadowRoot.appendChild(this.template())
+        const response = await fetch(
+            new Request(
+                '/themes/default/page/login.html',
+                { method: 'GET' }
+            )
+        )
+
+        const template = document.createElement('template')
+        template.innerHTML = await response.text()
+        this.shadowRoot.appendChild(template.content.cloneNode(true))
 
         this.shadowRoot
             .querySelector('button')

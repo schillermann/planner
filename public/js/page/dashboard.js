@@ -4,12 +4,17 @@ export default class PageDasboard extends HTMLElement {
         this.attachShadow({mode: 'open'});
     }
 
-    connectedCallback() {
-        const template = document.createElement('template');
-        template.innerHTML = /* html */`
-            <h1>Dashboard</h1>
-        `;
+    async connectedCallback() {
+        const response = await fetch(
+            new Request(
+                '/themes/default/page/dashboard.html',
+                { method: 'GET' }
+            )
+        )
 
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        const template = document.createElement('template');
+        template.innerHTML = await response.text()
+
+        this.shadowRoot.appendChild(template.content.cloneNode(true))
     }
 }

@@ -5,36 +5,16 @@ export default class LayoutLoggedInHeader extends HTMLElement {
         this.menuOpen = true
     }
 
-    connectedCallback() {
-        const template = document.createElement('template')
-        template.innerHTML = /* html */`
-            <style>
-                nav {
-                    display: flex;
-                    justify-content: space-between;
-                    background-color: #373433;
-                    color: #ffffff;
-                }
-                #primary-items {
-                    display: flex;
-                }
-                #secondary-items {
+    async connectedCallback() {
+        const response = await fetch(
+            new Request(
+                '/themes/default/layout/logged-in-header.html',
+                { method: 'GET' }
+            )
+        )
 
-                }
-                a { 
-                    color: white;
-                }
-            </style>
-            <nav>
-                <section id="primary-items">
-                    <button>Menu</button>
-                    <label>Logo</label>
-                </section>
-                <section id="secondary-items">
-                    <a href="#logout">LOG OUT</a>
-                </section>
-            </nav>
-        `
+        const template = document.createElement('template')
+        template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
 
         this.shadowRoot.querySelector('button').addEventListener('click', (event) => {

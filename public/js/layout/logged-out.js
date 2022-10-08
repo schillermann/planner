@@ -7,12 +7,16 @@ export default class LayoutLoggedOut extends HTMLElement {
         this.attachShadow({mode: 'open'});
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        const response = await fetch(
+            new Request(
+                '/themes/default/layout/logged-out.html',
+                { method: 'GET' }
+            )
+        )
+
         const template = document.createElement('template')
-        template.innerHTML = /* html */`
-            <layout-logged-out-header></layout-logged-out-header>
-            <layout-logged-out-main></layout-logged-out-main>
-        `
+        template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
 
         window.customElements.define('layout-logged-out-header', LayoutLoggedOutHeader)

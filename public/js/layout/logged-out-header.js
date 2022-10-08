@@ -4,30 +4,16 @@ export default class LayoutLoggedOutHeader extends HTMLElement {
         this.attachShadow({mode: "open"});
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        const response = await fetch(
+            new Request(
+                '/themes/default/layout/logged-out-header.html',
+                { method: 'GET' }
+            )
+        )
+
         const template = document.createElement("template")
-        template.innerHTML = /* html */`
-            <style>
-                nav {
-                    display: flex;
-                    justify-content: space-between;
-                    background-color: #373433;
-                    color: #ffffff;
-                }
-                #primary-items {
-                    display: flex;
-                }
-                h1 {
-                    margin: 0px;
-                }
-            </style>
-            <nav>
-                <section id="primary-items">
-                    <img src="images/logo.jpg" width="48" height="48" />
-                    <h1>Demo</h1>
-                </section>
-            </nav>
-        `
+        template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
     }
 }

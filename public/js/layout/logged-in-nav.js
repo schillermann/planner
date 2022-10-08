@@ -4,24 +4,16 @@ export default class LayoutLoggedInNav extends HTMLElement {
         this.attachShadow({mode: 'open'});
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        const response = await fetch(
+            new Request(
+                '/themes/default/layout/logged-in-nav.html',
+                { method: 'GET' }
+            )
+        )
+
         const template = document.createElement('template')
-        template.innerHTML = /* html */`
-        <style>
-            nav {
-                float: left;
-            }
-            ul {
-                border: 1px solid;
-            }
-        </style>
-        <nav>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#userlist">User List</a></li>
-            </ul>
-        </nav>
-        `
+        template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
     }
 
