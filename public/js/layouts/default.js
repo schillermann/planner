@@ -1,7 +1,7 @@
-import LayoutLoggedInHeader from './logged-in-header.js'
-import LayoutLoggedInNav from './logged-in-nav.js'
+import ComponentsHeader from '../components/header.js'
+import ComponentNav from '../components/nav.js'
 
-export default class LayoutLoggedIn extends HTMLElement {
+export default class LayoutDefault extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
@@ -10,7 +10,7 @@ export default class LayoutLoggedIn extends HTMLElement {
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layout/logged-in.html',
+                '/themes/default/layouts/default.html',
                 { method: 'GET' }
             )
         )
@@ -19,11 +19,11 @@ export default class LayoutLoggedIn extends HTMLElement {
         template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-        if (!window.customElements.get('layout-logged-in-header')) {
-            window.customElements.define('layout-logged-in-header', LayoutLoggedInHeader)
+        if (!window.customElements.get('component-header')) {
+            window.customElements.define('component-header', ComponentsHeader)
         }
-        if (!window.customElements.get('layout-logged-in-nav')) {
-            window.customElements.define('layout-logged-in-nav', LayoutLoggedInNav)
+        if (!window.customElements.get('component-nav')) {
+            window.customElements.define('component-nav', ComponentNav)
         }
 
         await this.loadPage(
@@ -36,7 +36,7 @@ export default class LayoutLoggedIn extends HTMLElement {
 
     async attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'menuopen') {
-            const layoutLoggedInNav = this.shadowRoot.querySelector('layout-logged-in-nav')
+            const layoutLoggedInNav = this.shadowRoot.querySelector('component-nav')
             layoutLoggedInNav.setAttribute('open', newValue)
             return
         }

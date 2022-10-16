@@ -1,4 +1,4 @@
-export default class PageLogin extends HTMLElement {
+export default class ViewLogin extends HTMLElement {
     constructor() {
         super();
 
@@ -10,7 +10,7 @@ export default class PageLogin extends HTMLElement {
 
         const response = await fetch(
             new Request(
-                '/themes/default/page/login.html',
+                '/themes/default/views/login.html',
                 { method: 'GET' }
             )
         )

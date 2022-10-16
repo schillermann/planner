@@ -1,53 +1,62 @@
 const routes = [
     {
         uri: '',
-        layoutFile: './layout/logged-in.js',
-        pageFile: './page/dashboard.js'
+        layoutFile: './layouts/default.js',
+        pageFile: './views/dashboard.js'
     },
     {
         uri: '#logout',
-        layoutFile: './layout/logged-in.js',
-        pageFile: './page/logout.js'
+        layoutFile: './layouts/default.js',
+        pageFile: './views/logout.js'
     },
     {
         uri: '#userlist',
-        layoutFile: './layout/logged-in.js',
-        pageFile: './page/user-list.js'
+        layoutFile: './layouts/default.js',
+        pageFile: './views/users.js'
     },
     {
         uri: '#login',
-        layoutFile: './layout/logged-out.js',
-        pageFile: './page/login.js'
+        layoutFile: './layouts/login.js',
+        pageFile: './views/login.js'
     }
 ]
 
-const layout = document.querySelector('layout')
+const app = document.getElementById('app')
 
-async function setPage() {
+/**
+ * @param {string} word 
+ * @returns {string}
+ */
+function pascalCaseToKebabCase(word) {
+    return word.replace(/([a-z0–9])([A-Z])/g, '$1-$2').toLowerCase()
+}
+
+async function setView() {
     const route = routes.find(e => e.uri === window.location.hash)
     if (!route) {
         return
     }
 
-    const webComponentName = route.layoutFile.replace('./', ''). replace('.js', '').replace('/', '-')
-    const { default: Layout } = await import(route.layoutFile)
-    if (!window.customElements.get(webComponentName)) {
-        window.customElements.define(webComponentName, Layout)
+    const layout = await import(route.layoutFile)
+    const componentName = pascalCaseToKebabCase(layout.default.name)
+
+    if (!window.customElements.get(componentName)) {
+        window.customElements.define(componentName, layout.default)
     }
 
-    if (layout.firstChild) {
-        layout.removeChild(layout.firstChild)
+    if (app.firstChild) {
+        app.removeChild(app.firstChild)
     }
 
-    layout.appendChild(document.createElement(webComponentName)).setAttribute('pagefile', route.pageFile)
+    app.appendChild(document.createElement(componentName)).setAttribute('pagefile', route.pageFile)
 }
 
-await setPage()
-window.addEventListener('hashchange', setPage) 
+await setView()
+window.addEventListener('hashchange', setView) 
 
 window.addEventListener('menuopen', function(event) {
 
-    const layoutLoggedIn = layout.querySelector('layout-logged-in')
+    const layoutLoggedIn = app.querySelector('layout-default')
     
     if (!layoutLoggedIn) {
         return
@@ -57,7 +66,7 @@ window.addEventListener('menuopen', function(event) {
 })
 
 window.addEventListener('menuclose', function(event) {
-    const layoutLoggedIn = layout.querySelector('layout-logged-in')
+    const layoutLoggedIn = app.querySelector('layout-default')
     if (!layoutLoggedIn) {
         return
     }

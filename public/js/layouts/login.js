@@ -1,7 +1,7 @@
-import LayoutLoggedOutHeader from './logged-out-header.js'
-import PageLogin from '../page/login.js'
+import ComponentLoginHeader from '../components/login-header.js'
+import ViewLogin from '../views/login.js'
 
-export default class LayoutLoggedOut extends HTMLElement {
+export default class LayoutLogin extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
@@ -10,7 +10,7 @@ export default class LayoutLoggedOut extends HTMLElement {
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layout/logged-out.html',
+                '/themes/default/layouts/login.html',
                 { method: 'GET' }
             )
         )
@@ -19,7 +19,7 @@ export default class LayoutLoggedOut extends HTMLElement {
         template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-        window.customElements.define('layout-logged-out-header', LayoutLoggedOutHeader)
-        window.customElements.define('layout-logged-out-main', PageLogin)
+        window.customElements.define('component-login-header', ComponentLoginHeader)
+        window.customElements.define('view-login', ViewLogin)
     }
 }

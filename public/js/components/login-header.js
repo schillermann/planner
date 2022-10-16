@@ -1,4 +1,4 @@
-export default class LayoutLoggedOutHeader extends HTMLElement {
+export default class ComponentLoginHeader extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: "open"});
@@ -7,7 +7,7 @@ export default class LayoutLoggedOutHeader extends HTMLElement {
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layout/logged-out-header.html',
+                '/themes/default/components/login-header.html',
                 { method: 'GET' }
             )
         )

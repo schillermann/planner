@@ -1,4 +1,4 @@
-export default class PageLogout extends HTMLElement {
+export default class ViewLogout extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});

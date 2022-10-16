@@ -1,4 +1,4 @@
-export default class LayoutLoggedInNav extends HTMLElement {
+export default class ComponentNav extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
@@ -7,7 +7,7 @@ export default class LayoutLoggedInNav extends HTMLElement {
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layout/logged-in-nav.html',
+                '/themes/default/components/nav.html',
                 { method: 'GET' }
             )
         )

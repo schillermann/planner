@@ -1,4 +1,4 @@
-export default class PageUserList extends HTMLElement {
+export default class ViewUsers extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'})
@@ -9,7 +9,7 @@ export default class PageUserList extends HTMLElement {
 
         const response = await fetch(
             new Request(
-                this.themePath + 'page/user-list.html',
+                this.themePath + 'views/users.html',
                 { method: 'GET' }
             )
         )
@@ -20,7 +20,7 @@ export default class PageUserList extends HTMLElement {
 
         const responseUserList = await fetch(
             new Request(
-                '/api/userlist.php',
+                '/api/users.php',
                 { method: 'GET' }
             )
         )

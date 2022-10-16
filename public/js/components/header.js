@@ -1,4 +1,4 @@
-export default class LayoutLoggedInHeader extends HTMLElement {
+export default class ComponentHeader extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'})
@@ -8,7 +8,7 @@ export default class LayoutLoggedInHeader extends HTMLElement {
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layout/logged-in-header.html',
+                '/themes/default/components/header.html',
                 { method: 'GET' }
             )
         )
@@ -18,7 +18,6 @@ export default class LayoutLoggedInHeader extends HTMLElement {
         this.shadowRoot.appendChild(template.content.cloneNode(true))
 
         this.shadowRoot.querySelector('button').addEventListener('click', (event) => {
-
             if (this.menuOpen) {
                 this.dispatchEvent(
                     new Event(

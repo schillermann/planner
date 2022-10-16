@@ -1,4 +1,4 @@
-export default class PageDasboard extends HTMLElement {
+export default class ViewDasboard extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
@@ -7,7 +7,7 @@ export default class PageDasboard extends HTMLElement {
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/page/dashboard.html',
+                '/themes/default/views/dashboard.html',
                 { method: 'GET' }
             )
         )
