@@ -1,0 +1,24 @@
+{
+    "label": {
+        "en": "Administration",
+        "de": "Verwaltung"
+    },
+    "nav": [
+        {
+            "uri": "#users",
+            "layoutFile": "./layouts/default.js",
+            "viewFile": "./views/users.js",
+            "label": {
+                "en": "Users"
+            }
+        },
+        {
+            "uri": "#profile",
+            "layoutFile": "./layouts/default.js",
+            "viewFile": "./views/profile.js",
+            "label": {
+                "en": "Profile"
+            }
+        }
+    ]
+}

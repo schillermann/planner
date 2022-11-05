@@ -1,0 +1,22 @@
+[
+    {
+        "uri": "",
+        "layoutFile": "./layouts/default.js",
+        "viewFile": "./views/dashboard.js"
+    },
+    {
+        "uri": "#logout",
+        "layoutFile": "./layouts/default.js",
+        "viewFile": "./views/logout.js"
+    },
+    {
+        "uri": "#users",
+        "layoutFile": "./layouts/default.js",
+        "viewFile": "./views/users.js"
+    },
+    {
+        "uri": "#login",
+        "layoutFile": "./layouts/login.js",
+        "viewFile": "./views/login.js"
+    }
+]

@@ -2,22 +2,22 @@ const routes = [
     {
         uri: '',
         layoutFile: './layouts/default.js',
-        pageFile: './views/dashboard.js'
+        viewFile: './views/dashboard.js'
     },
     {
         uri: '#logout',
         layoutFile: './layouts/default.js',
-        pageFile: './views/logout.js'
+        viewFile: './views/logout.js'
     },
     {
         uri: '#userlist',
         layoutFile: './layouts/default.js',
-        pageFile: './views/users.js'
+        viewFile: './views/users.js'
     },
     {
         uri: '#login',
         layoutFile: './layouts/login.js',
-        pageFile: './views/login.js'
+        viewFile: './views/login.js'
     }
 ]
 
@@ -48,7 +48,7 @@ async function setView() {
         app.removeChild(app.firstChild)
     }
 
-    app.appendChild(document.createElement(componentName)).setAttribute('pagefile', route.pageFile)
+    app.appendChild(document.createElement(componentName)).setAttribute('pagefile', route.viewFile)
 }
 
 await setView()

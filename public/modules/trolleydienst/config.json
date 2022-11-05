@@ -1,0 +1,17 @@
+{
+    "label": {
+        "en": "Cart Witnessing",
+        "de": "Trolleydienst"
+    },
+    "nav": [
+        {
+            "uri": "#routes",
+            "layoutFile": "./layouts/default.js",
+            "viewFile": "./views/routes.js",
+            "label": {
+                "en": "Routes",
+                "de": "Routen"
+            }
+        }
+    ]
+}
