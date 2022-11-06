@@ -1,25 +1,6 @@
-const routes = [
-    {
-        uri: '',
-        layoutFile: './layouts/default.js',
-        viewFile: './views/dashboard.js'
-    },
-    {
-        uri: '#logout',
-        layoutFile: './layouts/default.js',
-        viewFile: './views/logout.js'
-    },
-    {
-        uri: '#userlist',
-        layoutFile: './layouts/default.js',
-        viewFile: './views/users.js'
-    },
-    {
-        uri: '#login',
-        layoutFile: './layouts/login.js',
-        viewFile: './views/login.js'
-    }
-]
+import Modules from "./modules.js"
+
+const routes = await new Modules().routes()
 
 const app = document.getElementById('app')
 
@@ -74,7 +55,7 @@ window.addEventListener('menuclose', function(event) {
 })
 
 window.addEventListener('loggedin', function(event) {
-    window.location.hash = '#userlist'
+    window.location.hash = ''
 })
 
 window.addEventListener('loggedout', function(event) {

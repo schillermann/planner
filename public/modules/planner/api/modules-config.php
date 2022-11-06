@@ -1,7 +1,6 @@
 <?php
-$navFile = 'nav-cache.json';
 $modules = [];
-$modules = glob('../modules/*' , GLOB_ONLYDIR);
+$modules = glob('../../*' , GLOB_ONLYDIR);
 $navList = [];
 
 foreach ($modules as $module) {

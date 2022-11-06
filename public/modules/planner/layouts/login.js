@@ -4,13 +4,14 @@ import ViewLogin from '../views/login.js'
 export default class LayoutLogin extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: 'open'})
+        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layouts/login.html',
+                this.modulePath + 'layouts/login.html',
                 { method: 'GET' }
             )
         )

@@ -3,11 +3,11 @@
         "en": "Cart Witnessing",
         "de": "Trolleydienst"
     },
-    "nav": [
+    "routes": [
         {
             "uri": "#routes",
             "layoutFile": "./layouts/default.js",
-            "viewFile": "./views/routes.js",
+            "viewFile": "./modules/trolleydienst/views/routes.js",
             "label": {
                 "en": "Routes",
                 "de": "Routen"

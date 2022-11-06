@@ -1,14 +1,18 @@
+import Modules from "../modules.js";
+
 export default class ComponentNav extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.modules = new Modules()
+        this.attachShadow({mode: 'open'})
+        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
 
         const response = await fetch(
             new Request(
-                '/themes/default/components/nav.html',
+                this.modulePath + 'components/nav.html',
                 { method: 'GET' }
             )
         )
@@ -17,35 +21,31 @@ export default class ComponentNav extends HTMLElement {
         template.innerHTML = await response.text()
         this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-        const responseConfig = await fetch(
-            new Request(
-                '/api/module-nav.php',
-                { method: 'GET' }
-            )
-        )
-
-        await this.build(await responseConfig.json())
+        await this.build()
     }
 
-    async build(modulesNavigation = []) {
+    async build() {
         const nav = this.shadowRoot.querySelector('nav')
         const templateSection = this.shadowRoot.querySelector('section')
         templateSection.remove()
 
-        for (const moduleNavigation of modulesNavigation) {
+        for (const config of await this.modules.configs()) {
             const templateClone = templateSection.cloneNode(true)
 
-            templateClone.querySelector('header').textContent = moduleNavigation.label.en
+            templateClone.querySelector('header > h1').textContent = config.label.en
             
             const ul = templateClone.querySelector('ul')
             const templateNavItem = ul.querySelector('li')
             templateNavItem.remove()
 
-            for (const items of moduleNavigation.nav) {
+            for (const route of config.routes) {
+                if (route.hidden === true) {
+                    continue
+                }
                 const liClone = templateNavItem.cloneNode(true)
                 const itemLink = liClone.querySelector('a')
-                itemLink.textContent = items.label.en
-                itemLink.href = items.uri
+                itemLink.textContent = route.label.en
+                itemLink.href = route.uri
                 ul.appendChild(liClone)
             }
 

@@ -4,13 +4,14 @@ export default class ViewLogin extends HTMLElement {
 
         this.attachShadow({mode: 'open'});
         this.boundClickButton = event => this.clickButton(event)
+        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
 
         const response = await fetch(
             new Request(
-                '/themes/default/views/login.html',
+                this.modulePath + 'views/login.html',
                 { method: 'GET' }
             )
         )
@@ -33,7 +34,7 @@ export default class ViewLogin extends HTMLElement {
             password: this.shadowRoot.getElementById('password').value
         }
 
-        const url = '/api/login.php'
+        const url = this.modulePath + 'api/login.php'
 
         const response = await fetch(
             url,

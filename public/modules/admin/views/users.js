@@ -2,14 +2,14 @@ export default class ViewUsers extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'})
-        this.themePath = './themes/default/'
+        this.modulePath = './modules/admin/'
     }
 
     async connectedCallback() {
 
         const response = await fetch(
             new Request(
-                this.themePath + 'views/users.html',
+                this.modulePath + 'views/users.html',
                 { method: 'GET' }
             )
         )
@@ -20,7 +20,7 @@ export default class ViewUsers extends HTMLElement {
 
         const responseUserList = await fetch(
             new Request(
-                '/api/users.php',
+                this.modulePath + 'api/users.php',
                 { method: 'GET' }
             )
         )
@@ -49,14 +49,5 @@ export default class ViewUsers extends HTMLElement {
 
             this.shadowRoot.querySelector('tbody').appendChild(row)
          }
-    }
-
-    static get observedAttributes() { return ['theme-path']; }
-
-    async attributeChangedCallback(name, oldValue, newValue) {
-        if (name !== 'theme-path') {
-            return
-        }
-        this.themePath = newValue
     }
 }

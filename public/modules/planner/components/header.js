@@ -3,12 +3,13 @@ export default class ComponentHeader extends HTMLElement {
         super();
         this.attachShadow({mode: 'open'})
         this.menuOpen = true
+        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/components/header.html',
+                this.modulePath + 'components/header.html',
                 { method: 'GET' }
             )
         )

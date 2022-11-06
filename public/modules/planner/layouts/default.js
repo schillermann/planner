@@ -5,12 +5,13 @@ export default class LayoutDefault extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
+        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                '/themes/default/layouts/default.html',
+                this.modulePath + 'layouts/default.html',
                 { method: 'GET' }
             )
         )
@@ -58,8 +59,9 @@ export default class LayoutDefault extends HTMLElement {
             if (!pageElement) {
                 return
             }
-            const pageFileSubFolder = pageFile.replace('./', './../')
-            const webComponentName = pageFile.replace('./', ''). replace('.js', '').replace('/', '-')
+
+            const pageFileSubFolder = pageFile.replace('./', './../../../')
+            const webComponentName = pageFile.replace('./', ''). replace('.js', '').replaceAll('/', '-')
     
             if(!window.customElements.get(webComponentName)) {
                 const { default: Page } = await import(pageFileSubFolder)
@@ -67,12 +69,5 @@ export default class LayoutDefault extends HTMLElement {
             }
     
             pageElement.appendChild(document.createElement(webComponentName))
-            const response = await fetch(
-                new Request(
-                    '/api/config.json',
-                    { method: 'GET' }
-                )
-            )
-            pageElement.firstChild.setAttribute('theme-path', (await response.json()).themePath)
       }
 }
