@@ -2,7 +2,6 @@ export default class ViewLogout extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'})
-        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
@@ -13,7 +12,7 @@ export default class ViewLogout extends HTMLElement {
 
         this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-        const url = this.modulePath + 'api/logout.php'
+        const url = './api/logout.php'
         const response = await fetch(url, { method: 'GET' })
         if (response.status !== 200) {
             console.log('logout error')

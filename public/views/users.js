@@ -2,14 +2,13 @@ export default class ViewUsers extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'})
-        this.modulePath = './modules/admin/'
     }
 
     async connectedCallback() {
 
         const response = await fetch(
             new Request(
-                this.modulePath + 'views/users.html',
+                './views/users.html',
                 { method: 'GET' }
             )
         )

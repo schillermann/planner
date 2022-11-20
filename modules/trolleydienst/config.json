@@ -12,6 +12,15 @@
                 "en": "Routes",
                 "de": "Routen"
             }
+        },
+        {
+            "uri": "#test",
+            "layoutFile": "./layouts/default.js",
+            "viewFile": "./modules/trolleydienst/views/test.js",
+            "label": {
+                "en": "Tests",
+                "de": "Routen"
+            }
         }
     ]
 }

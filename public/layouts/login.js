@@ -5,13 +5,12 @@ export default class LayoutLogin extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'})
-        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                this.modulePath + 'layouts/login.html',
+                './layouts/login.html',
                 { method: 'GET' }
             )
         )

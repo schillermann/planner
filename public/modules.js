@@ -1,15 +1,11 @@
 export default class Modules {
-    constructor() {
-        this.modulePath = './modules/planner/'
-    }
-
     /**
      * @returns {array}
      */
     async configs() {
         const responseConfig = await fetch(
             new Request(
-                this.modulePath + '/api/modules-config.php',
+                './api/modules/configs',
                 { method: 'GET' }
             )
         )
@@ -24,7 +20,11 @@ export default class Modules {
         const routes = []
         for (const config of await this.configs()) {
             for (const route of config.routes) {
-                routes.push(route)
+                routes.push({
+                    uri: route.uri,
+                    layoutFile: route.layoutFile,
+                    viewFile: route.viewFile
+                })
             }
         }
         return routes

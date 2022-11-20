@@ -5,14 +5,13 @@ export default class ComponentNav extends HTMLElement {
         super();
         this.modules = new Modules()
         this.attachShadow({mode: 'open'})
-        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
 
         const response = await fetch(
             new Request(
-                this.modulePath + 'components/nav.html',
+                './components/nav.html',
                 { method: 'GET' }
             )
         )

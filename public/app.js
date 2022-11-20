@@ -1,6 +1,11 @@
-import Modules from "./modules.js"
+import Modules from './modules.js'
 
 const routes = await new Modules().routes()
+routes.push({
+    layoutFile: "./layouts/default.js",
+    uri: "",
+    viewFile: "./views/home.js"
+})
 
 const app = document.getElementById('app')
 
@@ -59,5 +64,5 @@ window.addEventListener('loggedin', function(event) {
 })
 
 window.addEventListener('loggedout', function(event) {
-    window.location.hash = '#login';
+    window.location.hash = '#login'
 })

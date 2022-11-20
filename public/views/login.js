@@ -4,14 +4,13 @@ export default class ViewLogin extends HTMLElement {
 
         this.attachShadow({mode: 'open'});
         this.boundClickButton = event => this.clickButton(event)
-        this.modulePath = './modules/planner/'
     }
 
     async connectedCallback() {
 
         const response = await fetch(
             new Request(
-                this.modulePath + 'views/login.html',
+                './views/login.html',
                 { method: 'GET' }
             )
         )

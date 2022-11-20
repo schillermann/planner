@@ -4,14 +4,13 @@ import ComponentNav from '../components/nav.js'
 export default class LayoutDefault extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
-        this.modulePath = './modules/planner/'
+        this.attachShadow({mode: 'open'})
     }
 
     async connectedCallback() {
         const response = await fetch(
             new Request(
-                this.modulePath + 'layouts/default.html',
+                './layouts/default.html',
                 { method: 'GET' }
             )
         )
