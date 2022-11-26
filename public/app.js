@@ -1,11 +1,11 @@
-import Modules from './modules.js'
+const response = await fetch(
+    new Request(
+        './api/get-routes',
+        { method: 'GET' }
+    )
+)
 
-const routes = await new Modules().routes()
-routes.push({
-    layoutFile: "./layouts/default.js",
-    uri: "",
-    viewFile: "./views/home.js"
-})
+const routes = await response.json()
 
 const app = document.getElementById('app')
 
@@ -19,6 +19,7 @@ function pascalCaseToKebabCase(word) {
 
 async function setView() {
     const route = routes.find(e => e.uri === window.location.hash)
+
     if (!route) {
         return
     }

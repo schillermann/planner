@@ -4,7 +4,7 @@ namespace App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class LoginApi implements PageInterface
+class LoginUserCommand implements PageInterface
 {
     private UserRequestInterface $user;
 
@@ -29,7 +29,7 @@ class LoginApi implements PageInterface
     public function withMetadata(string $name, string $value): PageInterface
     {
         if ($name === PageInterface::BODY) {
-            return new LoginApi(new UserRequest($value));
+            return new LoginUserCommand(new UserRequest($value));
         }
 
         return $this;

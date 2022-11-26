@@ -4,7 +4,7 @@ namespace App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ModulesConfigsApi implements PageInterface
+class GetRoutesQuery implements PageInterface
 {
     private string $modulesPath;
 
@@ -17,18 +17,30 @@ class ModulesConfigsApi implements PageInterface
     {
         $modules = [];
         $modules = glob(realpath($this->modulesPath) . '/*' , GLOB_ONLYDIR);
-        $configs = [];
+        $routes[] = [
+            'uri' => '',
+            'layoutFile' => './layouts/default.js',
+            'viewFile' => './views/home.js',
+            'label' => [
+                'en' => 'Home',
+                'de' => 'Startseite'
+            ]
+        ];
+
         $configJson = '';
 
         foreach ($modules as $module) {
             
             $configJson = file_get_contents($module . DIRECTORY_SEPARATOR . 'config.json');
-            $configs[] = json_decode($configJson, true, 5, JSON_THROW_ON_ERROR);
+            $config = json_decode($configJson, true, 5, JSON_THROW_ON_ERROR);
+            foreach ($config['routes'] as $configRoutes) {
+                $routes[] = $configRoutes;
+            }
         }
 
         return $output
             ->withMetadata('Content-Type', 'application/json')
-            ->withMetadata(PageInterface::BODY, json_encode($configs, JSON_THROW_ON_ERROR, 5));
+            ->withMetadata(PageInterface::BODY, json_encode($routes, JSON_THROW_ON_ERROR, 5));
     }
 
     public function withMetadata(string $name, string $value): PageInterface

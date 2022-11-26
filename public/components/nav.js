@@ -1,9 +1,6 @@
-import Modules from "../modules.js";
-
 export default class ComponentNav extends HTMLElement {
     constructor() {
-        super();
-        this.modules = new Modules()
+        super()
         this.attachShadow({mode: 'open'})
     }
 
@@ -24,32 +21,48 @@ export default class ComponentNav extends HTMLElement {
     }
 
     async build() {
-        const nav = this.shadowRoot.querySelector('nav')
-        const templateSection = this.shadowRoot.querySelector('section')
-        templateSection.remove()
+        const navElement = this.shadowRoot.querySelector('nav')
 
-        for (const config of await this.modules.configs()) {
-            const templateClone = templateSection.cloneNode(true)
+        const response = await fetch(
+            new Request(
+                './api/get-navigation',
+                { method: 'GET' }
+            )
+        )
 
-            templateClone.querySelector('header > h1').textContent = config.label.en
-            
-            const ul = templateClone.querySelector('ul')
-            const templateNavItem = ul.querySelector('li')
-            templateNavItem.remove()
+        const navConfig = await response.json()
 
-            for (const route of config.routes) {
-                if (route.hidden === true) {
-                    continue
-                }
-                const liClone = templateNavItem.cloneNode(true)
-                const itemLink = liClone.querySelector('a')
-                itemLink.textContent = route.label.en
-                itemLink.href = route.uri
-                ul.appendChild(liClone)
+        for (const navConfigSection of navConfig) {
+            if (navConfigSection.hasOwnProperty('label')) {
+                const navTemplate = this.shadowRoot.getElementById('template-nav-with-header').content.cloneNode(true)
+                this.addItemsWithHeader(navTemplate, navElement, navConfigSection)
+            } else {
+                const navTemplate = this.shadowRoot.getElementById('template-nav').content.cloneNode(true)
+                this.addItemsToList(navTemplate, navElement, navConfigSection.routes)
             }
+        }
+    }
 
-            nav.appendChild(templateClone)
-        }        
+    addItemsWithHeader(template, nav, config) {
+        template.querySelector('header > h1').textContent = config.label.en
+        this.addItemsToList(template, nav, config.routes)
+    }
+
+    addItemsToList(template, nav, routes) {
+        const ul = template.querySelector('ul')
+
+        const li = template.querySelector('ul > li')
+        li.remove()
+
+        for (const route of routes) {
+            const liClone = li.cloneNode(true)
+            const a = liClone.querySelector('a')
+            a.textContent = route.label.en
+            a.setAttribute('href', route.uri)
+            ul.appendChild(liClone)
+        }
+        
+        nav.appendChild(template)
     }
 
     static get observedAttributes() { return ['open']; }

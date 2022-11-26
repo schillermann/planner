@@ -2,10 +2,8 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\AuthApi;
-use App\GetNavQuery;
-use App\GetRoutesQuery;
-use App\GetUsersQuery;
-use App\LoginUserCommand;
+use App\Modules\Trolleydienst\GetPublishersQuery;
+use App\Modules\Trolleydienst\GetRoutesQuery;
 use PhpPages\App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
@@ -30,20 +28,12 @@ class ApiWithRoutes implements PageInterface
     public function withMetadata(string $name, string $value): PageInterface
     {
         if ($name === PageInterface::PATH) {
-            if ($value === '/api/login-user') {
-                return new LoginUserCommand();
-            }
-
-            if ($value === '/api/get-users') {
-                return new GetUsersQuery($this->database);
+            if ($value === '/modules/trolleydienst/api/get-routes') {
+                return new GetRoutesQuery($this->database);
             }
     
-            if ($value === '/api/get-navigation') {
-                return new GetNavQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/');
-            }
-
-            if ($value === '/api/get-routes') {
-                return new GetRoutesQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/');
+            if ($value === '/modules/trolleydienst/api/get-publishers') {
+                return new GetPublishersQuery($this->database);
             }
         }
 
@@ -64,7 +54,7 @@ $session->start();
             new \PDO('mysql:host=localhost;dbname=simple_crm', $user, $pass)
         ),
         $session,
-        ['/api/login-user', '/api/get-navigation',  '/api/get-routes']
+        []
     )
 ))
     ->start(

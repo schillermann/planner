@@ -3,6 +3,7 @@
         background-color: #f0f0ef;
         min-width: 220px;
         height: 100%;
+        padding: 20px 0 0 0;
     }
     section {
         border-bottom: 1px solid #bab7b5;
@@ -16,6 +17,7 @@
     ul {
         list-style-type: square;
         padding: 0;
+        margin: 0;
     }
     li {
         list-style-type: none;
@@ -33,7 +35,13 @@
     }
 </style>
 
-<nav>
+<template id="template-nav">
+    <ul>
+        <li><a href="#">Item</a></li>
+    </ul>
+</template>
+
+<template id="template-nav-with-header">
     <section>
         <header>
             <h1>Categorie</h1>
@@ -42,4 +50,6 @@
             <li><a href="#">Item</a></li>
         </ul>
     </section>
-</nav>
+</template>
+
+<nav></nav>
