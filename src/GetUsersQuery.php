@@ -15,11 +15,25 @@ class GetUsersQuery implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
+        $userJson = [];
+        $users = $this->database->query('SELECT * FROM user')->fetchAll(\PDO::FETCH_ASSOC);
         
-        $users = $this->database->query('SELECT * FROM user')->fetchAll();
-        var_dump($users);
-        exit;
-        return $output->withMetadata(PageInterface::BODY, '{}');
+        foreach ($users as $user) {
+            $userJson[] = [
+                'id' => $user['id'],
+                'username' => $user['username'],
+                'email' => $user['email'],
+                'password' => $user['password'],
+                'firstname' => $user['firstname'],
+                'lastname' => $user['lastname'],
+                'disabled' => (bool)$user['disabled'],
+                'createdAt' => $user['created_at'],
+                'updatedAt' => $user['updated_at'],
+            ];
+
+        }
+
+        return $output->withMetadata(PageInterface::BODY, json_encode($userJson, JSON_THROW_ON_ERROR, 2));
     }
 
     public function withMetadata(string $name, string $value): PageInterface

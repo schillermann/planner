@@ -15,38 +15,29 @@ export default class ViewUsers extends HTMLElement {
 
         const template = document.createElement('template')
         template.innerHTML = await response.text()
-        this.shadowRoot.appendChild(template.content.cloneNode(true))  
 
-        const responseUserList = await fetch(
+        this.shadowRoot.appendChild(template.content.cloneNode(true))
+        await this.build()
+    }
+
+    async build() {
+        const response = await fetch(
             new Request(
-                this.modulePath + 'api/users.php',
+                './api/get-users',
                 { method: 'GET' }
             )
         )
 
-        for (const user of await responseUserList.json()) {
-            const row = document.createElement('tr')
-            const cellUsername = document.createElement('td')
-            const cellFirstname = document.createElement('td')
-            const cellLastname = document.createElement('td')
-            const cellEmail = document.createElement('td')
+        for (const user of await response.json()) {
+            const document = this.shadowRoot.querySelector('template#row').content.cloneNode(true)
+            const row = document.querySelector('tr')
 
-            const cellTextUsername = document.createTextNode(user.username)
-            const cellTextFirstname = document.createTextNode(user.firstname)
-            const cellTextLastname = document.createTextNode(user.lastname)
-            const cellTextEmail = document.createTextNode(user.email)
+            row.innerHTML = row.innerHTML.replace('{USERNAME}', user.username)
+            row.innerHTML = row.innerHTML.replace('{FIRSTNAME}', user.firstname)
+            row.innerHTML = row.innerHTML.replace('{LASTNAME}', user.lastname)
+            row.innerHTML = row.innerHTML.replace('{EMAIL}', user.email)
 
-            cellUsername.appendChild(cellTextUsername)
-            cellFirstname.appendChild(cellTextFirstname)
-            cellLastname.appendChild(cellTextLastname)
-            cellEmail.appendChild(cellTextEmail)
-
-            row.appendChild(cellUsername)
-            row.appendChild(cellFirstname)
-            row.appendChild(cellLastname)
-            row.appendChild(cellEmail)
-
-            this.shadowRoot.querySelector('tbody').appendChild(row)
-         }
+            this.shadowRoot.querySelector('tbody').appendChild(document)
+        }
     }
 }
