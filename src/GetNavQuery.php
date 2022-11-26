@@ -7,10 +7,12 @@ use PhpPages\PageInterface;
 class GetNavQuery implements PageInterface
 {
     private string $modulesPath;
+    private array $routes;
 
-    public function __construct(string $modulesPath)
+    public function __construct(string $modulesPath, $routes)
     {
-        $this->modulesPath = $modulesPath;        
+        $this->modulesPath = $modulesPath;
+        $this->routes = $routes;     
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
@@ -18,35 +20,16 @@ class GetNavQuery implements PageInterface
         $modules = [];
         $modules = glob(realpath($this->modulesPath) . '/*' , GLOB_ONLYDIR);
         $navigation = [];
-        $configJson = '';
 
         $navigation[] = [
-            'routes' => [
-                [
-                    'uri' => '',
-                    'layoutFile' => './layouts/default.js',
-                    'viewFile' => './views/home.js',
-                    'label' => [
-                        'en' => 'Home',
-                        'de' => 'Startseite'
-                    ]
-                ],
-                [
-                    'uri' => '#users',
-                    'layoutFile' => './layouts/default.js',
-                    'viewFile' => './views/users.js',
-                    'label' => [
-                        'en' => 'Users',
-                        'de' => 'Benutzer'
-                    ]
-                ]
-            ]
+            'routes' => $this->routes
         ];
 
         foreach ($modules as $module) {
             
-            $configJson = file_get_contents($module . DIRECTORY_SEPARATOR . 'config.json');
-            $navigation[] = json_decode($configJson, true, 5, JSON_THROW_ON_ERROR);
+            $moduleConfigJson = '';
+            $moduleConfigJson = file_get_contents($module . DIRECTORY_SEPARATOR . 'config.json');
+            $navigation[] = json_decode($moduleConfigJson, true, 5, JSON_THROW_ON_ERROR);
         }
 
         return $output

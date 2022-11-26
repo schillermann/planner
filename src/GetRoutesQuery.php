@@ -7,26 +7,19 @@ use PhpPages\PageInterface;
 class GetRoutesQuery implements PageInterface
 {
     private string $modulesPath;
+    private array $routes;
 
-    public function __construct(string $modulesPath)
+    public function __construct(string $modulesPath, array $routes)
     {
-        $this->modulesPath = $modulesPath;        
+        $this->modulesPath = $modulesPath;
+        $this->routes = $routes;    
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $modules = [];
         $modules = glob(realpath($this->modulesPath) . '/*' , GLOB_ONLYDIR);
-        $routes[] = [
-            'uri' => '',
-            'layoutFile' => './layouts/default.js',
-            'viewFile' => './views/home.js',
-            'label' => [
-                'en' => 'Home',
-                'de' => 'Startseite'
-            ]
-        ];
-
+        $routes = $this->routes;
         $configJson = '';
 
         foreach ($modules as $module) {

@@ -16,10 +16,12 @@ use PhpPages\Session\NativeSession;
 class ApiWithRoutes implements PageInterface
 {
     private \PDO $database;
+    private array $routes;
 
-    public function __construct(\PDO $database)
+    public function __construct(\PDO $database, array $routes)
     {
-        $this->database = $database;        
+        $this->database = $database;
+        $this->routes = $routes;        
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
@@ -38,12 +40,12 @@ class ApiWithRoutes implements PageInterface
                 return new GetUsersQuery($this->database);
             }
     
-            if ($value === '/api/get-navigation') {
-                return new GetNavQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/');
+            if ($value === '/api/get-nav') {
+                return new GetNavQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/', $this->routes);
             }
 
             if ($value === '/api/get-routes') {
-                return new GetRoutesQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/');
+                return new GetRoutesQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/', $this->routes);
             }
         }
 
@@ -54,6 +56,26 @@ class ApiWithRoutes implements PageInterface
 
 $user = 'root';
 $pass = 'root';
+$routes = [
+    [
+        'uri' => '',
+        'layoutFile' => './layouts/default.js',
+        'viewFile' => './views/home.js',
+        'label' => [
+            'en' => 'Home',
+            'de' => 'Startseite'
+        ]
+    ],
+    [
+        'uri' => '#users',
+        'layoutFile' => './layouts/default.js',
+        'viewFile' => './views/users.js',
+        'label' => [
+            'en' => 'Users',
+            'de' => 'Benutzer'
+        ]
+    ]
+];
 
 $session = new NativeSession();
 $session->start();
@@ -61,10 +83,11 @@ $session->start();
 (new App(
     new AuthApi(
         new ApiWithRoutes(
-            new \PDO('mysql:host=localhost;dbname=simple_crm', $user, $pass)
+            new \PDO('mysql:host=localhost;dbname=simple_crm', $user, $pass),
+            $routes
         ),
         $session,
-        ['/api/login-user', '/api/get-navigation',  '/api/get-routes']
+        ['/api/login-user', '/api/get-nav',  '/api/get-routes']
     )
 ))
     ->start(

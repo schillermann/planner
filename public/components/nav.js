@@ -25,7 +25,7 @@ export default class ComponentNav extends HTMLElement {
 
         const response = await fetch(
             new Request(
-                './api/get-navigation',
+                './api/get-nav',
                 { method: 'GET' }
             )
         )
