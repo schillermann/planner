@@ -15,18 +15,12 @@ class UserRequest implements UserRequestInterface
 
     public function username(): string
     {
-        return array_key_exists(
-            self::USERNAME,
-            $this->array()
-        );
+        return $this->array()[self::USERNAME];
     }
 
     public function password(): string
     {
-        return array_key_exists(
-            self::PASSWORD,
-            $this->array()
-        );
+        return $this->array()[self::PASSWORD];
     }
 
     public function array(): array

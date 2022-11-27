@@ -33,7 +33,7 @@ export default class ViewLogin extends HTMLElement {
             password: this.shadowRoot.getElementById('password').value
         }
 
-        const url = this.modulePath + 'api/login.php'
+        const url = './api/login-user'
 
         const response = await fetch(
             url,

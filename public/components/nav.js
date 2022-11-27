@@ -55,6 +55,10 @@ export default class ComponentNav extends HTMLElement {
         li.remove()
 
         for (const route of routes) {
+            if (route.isNav === false) {
+                continue
+            }
+
             const liClone = li.cloneNode(true)
             const a = liClone.querySelector('a')
             a.textContent = route.label.en

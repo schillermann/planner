@@ -12,15 +12,18 @@ use PhpPages\PageInterface;
 use PhpPages\Request\NativeRequest;
 use PhpPages\Response\NativeResponse;
 use PhpPages\Session\NativeSession;
+use PhpPages\SessionInterface;
 
 class ApiWithRoutes implements PageInterface
 {
     private \PDO $database;
+    private SessionInterface $session;
     private array $routes;
 
-    public function __construct(\PDO $database, array $routes)
+    public function __construct(\PDO $database, SessionInterface $session, array $routes)
     {
         $this->database = $database;
+        $this->session = $session;
         $this->routes = $routes;        
     }
 
@@ -33,7 +36,10 @@ class ApiWithRoutes implements PageInterface
     {
         if ($name === PageInterface::PATH) {
             if ($value === '/api/login-user') {
-                return new LoginUserCommand();
+                return new LoginUserCommand(
+                    $this->database,
+                    $this->session
+                );
             }
 
             if ($value === '/api/get-users') {
@@ -74,6 +80,26 @@ $routes = [
             'en' => 'Users',
             'de' => 'Benutzer'
         ]
+    ],
+    [
+        'uri' => '#login',
+        'layoutFile' => './layouts/login.js',
+        'viewFile' => './views/login.js',
+        'label' => [
+            'en' => 'Log In',
+            'de' => 'Anmelden'
+        ],
+        'isNav' => false 
+    ],
+    [
+        'uri' => '#logout',
+        'layoutFile' => './layouts/default.js',
+        'viewFile' => './views/logout.js',
+        'label' => [
+            'en' => 'Log Out',
+            'de' => 'Abmelden'
+        ],
+        'isNav' => false
     ]
 ];
 
@@ -84,6 +110,7 @@ $session->start();
     new AuthApi(
         new ApiWithRoutes(
             new \PDO('mysql:host=localhost;dbname=simple_crm', $user, $pass),
+            $session,
             $routes
         ),
         $session,

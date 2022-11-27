@@ -27,6 +27,10 @@ export default class ViewUsers extends HTMLElement {
                 { method: 'GET' }
             )
         )
+        if (response.status === 401) {
+            window.location.hash = 'login'
+            return
+        }
 
         for (const user of await response.json()) {
             const document = this.shadowRoot.querySelector('template#row').content.cloneNode(true)

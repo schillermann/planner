@@ -8,12 +8,15 @@
         display: flex;
         flex: 1 0 auto;
     }
+    .layout-main {
+        padding: 1rem 3rem;
+    }
 </style>
 <div class="layout">
     <component-header></component-header>
     <div class="layout-content">
         <component-nav open="true"></component-nav>
-        <main></main>
+        <main class="layout-main"></main>
     </div>
-    <component-footer style="background-color: #e7e6e4;">Footer</component-footer>
+    <component-footer style="background-color: #e7e6e4; min-height: 40px;">Footer</component-footer>
 </div>

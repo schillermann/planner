@@ -1,4 +1,6 @@
 <style>
+    @import url("../global.css");
+
     table {
         border-collapse: collapse;
     }
@@ -6,16 +8,25 @@
         border: 1px solid;
     }
 </style>
-<h1>User List</h1>
+
+<template id="row">
+    <tr>
+        <td>{USERNAME}</td>
+        <td>{FIRSTNAME}</td>
+        <td>{LASTNAME}</td>
+        <td>{EMAIL}</td>
+    </tr>
+</template>
+
+<h2>Users</h2>
 <table>
     <thead>
         <tr>
-            <th>username</th>
-            <th>firstname</th>
-            <th>lastname</th>
-            <th>email</th>
+            <th>Username</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
         </tr>
     </thead>
-    <tbody>
-    </tbody>
+    <tbody></tbody>
 </table>
