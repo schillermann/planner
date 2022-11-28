@@ -1,32 +1,58 @@
 <style>
     @import url("../global.css");
 
-    table {
-        border-collapse: collapse;
+    .head {
+        display: flex;
+        max-width: 1000px;
+        justify-content: space-between;
+        color: #615d5c;
+        font-weight: bold;
     }
-    table, th, td {
-        border: 1px solid;
+    .row {
+        display: flex;
+        max-width: 1000px;
+        justify-content: space-between;
+        border: 1px solid #f2f2f2;
+    }
+    .row:hover {
+        background-color: #e7edf6;
+        cursor: pointer;
+    }
+    .head div, .row div {
+        padding: 20px;
+    }
+    .head div {
+        padding-bottom: 10px;
+    }
+    .username {
+        width: 20%;
+        padding-left: 0px;
+    }
+    .firstname {
+        width: 20%;
+    }
+    .lastname {
+        width: 20%;
+    }
+    .email {
+        width: 40%;
+        padding-right: 0px;
     }
 </style>
 
 <template id="row">
-    <tr>
-        <td>{USERNAME}</td>
-        <td>{FIRSTNAME}</td>
-        <td>{LASTNAME}</td>
-        <td>{EMAIL}</td>
-    </tr>
+    <div class="row" onclick="alert('Show details')">
+        <div class="username">{USERNAME}</div>
+        <div class="firstname">{FIRSTNAME}</div>
+        <div class="lastname">{LASTNAME}</div>
+        <div class="email">{EMAIL}</div>
+    </div>
 </template>
 
 <h2>Users</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<div class="head">
+    <div class="username">Username</div>
+    <div class="firstname">Firstname</div>
+    <div class="lastname">Lastname</div>
+    <div class="email">E-Mail</div>
+</div>

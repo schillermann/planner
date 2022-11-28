@@ -34,14 +34,14 @@ export default class ViewUsers extends HTMLElement {
 
         for (const user of await response.json()) {
             const document = this.shadowRoot.querySelector('template#row').content.cloneNode(true)
-            const row = document.querySelector('tr')
+            const row = document.querySelector('.row')
 
             row.innerHTML = row.innerHTML.replace('{USERNAME}', user.username)
             row.innerHTML = row.innerHTML.replace('{FIRSTNAME}', user.firstname)
             row.innerHTML = row.innerHTML.replace('{LASTNAME}', user.lastname)
             row.innerHTML = row.innerHTML.replace('{EMAIL}', user.email)
 
-            this.shadowRoot.querySelector('tbody').appendChild(document)
+            this.shadowRoot.appendChild(document)
         }
     }
 }
