@@ -55,7 +55,7 @@ export default class ComponentNav extends HTMLElement {
         li.remove()
 
         for (const route of routes) {
-            if (route.isNav === false) {
+            if (route.hidden) {
                 continue
             }
 

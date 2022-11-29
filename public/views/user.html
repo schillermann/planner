@@ -1,0 +1,64 @@
+<style>
+    @import url("../global.css");
+
+    fieldset {
+        border: solid 1px #d5d4d2;
+    }
+    .field {
+        margin-bottom: 1.5rem;
+    }
+    label {
+        color: #76726f;
+        font-weight: bold;
+        display: block;
+        font-size: .8125rem;
+        margin-bottom: 2px;
+    }
+    .field-input {
+        border: solid 1px #d5d4d2;
+        padding: 0.625rem;
+    }
+    input[type="submit"].mainButton {
+        background-color: #386195;
+        border: 1px solid #2a4970;
+        color: #f8f8f7;
+    }
+    input[type="submit"] {
+        border: 1px solid #d5d4d2;
+        background-color: #f0f0ef;
+        border-radius: 2px;
+        color: #373433;
+        cursor: pointer;
+        padding: 0.75em 1em;
+        min-width: 4.5em;
+        min-height: 42px;
+    }
+    .formButtons {
+        margin: 1.5em 0 1em;
+    }
+</style>
+<h2>User</h2>
+
+<form>
+    <fieldset>
+        <div class="field">
+            <label for="username">Username</label>
+            <input type="text" class="field-input" id="username" value="{USERNAME}" size="16" maxlength="50">
+        </div>
+        <div class="field">
+            <label for="firstname">Firstname</label>
+            <input type="text" class="field-input" id="firstname" value="{FIRSTNAME}" size="16" maxlength="50">
+        </div>
+        <div class="field">
+            <label for="lastname">Lastname</label>
+            <input type="text" class="field-input" id="lastname" value="{LASTNAME}" size="16" maxlength="50">
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" class="field-input" id="email" value="{EMAIL}" size="30" maxlength="50">
+        </div>
+    </fieldset>
+    <div class="formButtons">
+        <input type="submit" class="mainButton" value="Submit">
+    </div>
+</form>

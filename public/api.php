@@ -4,6 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\AuthApi;
 use App\GetNavQuery;
 use App\GetRoutesQuery;
+use App\GetUserQuery;
 use App\GetUsersQuery;
 use App\LoginUserCommand;
 use PhpPages\App;
@@ -45,6 +46,10 @@ class ApiWithRoutes implements PageInterface
             if ($value === '/api/get-users') {
                 return new GetUsersQuery($this->database);
             }
+
+            if ($value === '/api/get-user') {
+                return new GetUserQuery($this->database);
+            }
     
             if ($value === '/api/get-nav') {
                 return new GetNavQuery($_SERVER['DOCUMENT_ROOT'] . '/../modules/', $this->routes);
@@ -82,6 +87,16 @@ $routes = [
         ]
     ],
     [
+        'uri' => '#user',
+        'layoutFile' => './layouts/default.js',
+        'viewFile' => './views/user.js',
+        'label' => [
+            'en' => 'User',
+            'de' => 'Benutzer'
+        ],
+        'hidden' => true
+    ],
+    [
         'uri' => '#login',
         'layoutFile' => './layouts/login.js',
         'viewFile' => './views/login.js',
@@ -89,7 +104,7 @@ $routes = [
             'en' => 'Log In',
             'de' => 'Anmelden'
         ],
-        'isNav' => false 
+        'hidden' => true 
     ],
     [
         'uri' => '#logout',
@@ -99,7 +114,7 @@ $routes = [
             'en' => 'Log Out',
             'de' => 'Abmelden'
         ],
-        'isNav' => false
+        'hidden' => true
     ]
 ];
 
